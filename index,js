@@ -1,0 +1,10 @@
+document.querySelectorAll('.widget').forEach(widget => {
+    widget.addEventListener('click', () => {
+        document.querySelectorAll('.widget').forEach(w => {
+            if (w !== widget) {
+                w.classList.remove('show-video');
+            }
+        });
+        widget.classList.toggle('show-video');
+    });
+});

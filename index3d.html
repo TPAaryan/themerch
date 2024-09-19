@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart Page</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f2f2f2, #e0e0e0);
+            color: #333;
+        }
+
+        .cart-container, .suggestions-container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease;
+        }
+
+        .cart-container:hover, .suggestions-container:hover {
+            transform: scale(1.02);
+        }
+
+        .cart-header, .suggestions-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #ff4d4d;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #ff4d4d, #cc0000);
+            color: white;
+            border-radius: 15px 15px 0 0;
+            text-align: center;
+        }
+
+        .cart-header h1, .suggestions-header h2 {
+            margin: 0;
+            letter-spacing: 1px;
+        }
+
+        .cart-header h1 {
+            font-size: 2.5rem;
+        }
+
+        .suggestions-header h2 {
+            font-size: 1.5rem;
+        }
+
+        .cart-item, .suggestion-item {
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+            padding: 15px 0;
+            transition: background 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .cart-item:hover, .suggestion-item:hover {
+            background: rgba(255, 235, 235, 0.5);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .cart-item img, .suggestion-item img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-right: 20px;
+            border: 3px solid #ff4d4d;
+            transition: transform 0.3s ease;
+        }
+
+        .cart-item img:hover, .suggestion-item img:hover {
+            transform: scale(1.1);
+        }
+
+        .cart-item-details, .suggestion-item-details {
+            flex: 1;
+        }
+
+        .cart-item-title, .suggestion-item-title {
+            font-size: 1.4rem;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .cart-item-price, .suggestion-item-price {
+            font-size: 1.1rem;
+            color: #ff4d4d;
+            margin: 5px 0;
+        }
+
+        .cart-item-quantity {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+        }
+
+        .quantity-control button {
+            background: #ff4d4d;
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 0 5px;
+            font-size: 1.1rem;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .quantity-control button:hover {
+            background: #cc0000;
+            transform: scale(1.1);
+        }
+
+        .quantity-control input {
+            width: 60px;
+            text-align: center;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 5px;
+            font-size: 1.1rem;
+            margin: 0 5px;
+        }
+
+        .cart-item-total {
+            font-size: 1.3rem;
+            color: #333;
+            margin-left: 20px;
+        }
+
+        .cart-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 2px solid #ff4d4d;
+            padding-top: 15px;
+            margin-top: 20px;
+            background: rgba(255, 235, 235, 0.5);
+            border-radius: 0 0 15px 15px;
+            text-align: center;
+        }
+
+        .cart-footer .total {
+            font-size: 1.8rem;
+            color: #ff4d4d;
+            font-weight: bold;
+        }
+
+        .cart-footer .checkout-button {
+            background: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .cart-footer .checkout-button:hover {
+            background: #cc0000;
+            transform: scale(1.05);
+        }
+
+        /* Suggestions Section */
+        .suggestions-container {
+            max-height: 600px; /* Set to match the height of the cart-container */
+            overflow-y: auto;  /* Adds a scroll bar if content overflows */
+        }
+
+        .suggestion-item {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .suggestion-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .suggestion-item img {
+            height: 150px;
+            border-bottom: 3px solid #ff4d4d;
+        }
+
+        .suggestion-item button {
+            background: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .suggestion-item button:hover {
+            background: #cc0000;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="cart-container">
+        <div class="cart-header">
+            <h1>Your Cart</h1>
+        </div>
+
+        <div class="cart-item">
+            <img src="item1.jpg" alt="Item 1">
+            <div class="cart-item-details">
+                <div class="cart-item-title">Item 1 Title</div>
+                <div class="cart-item-price">$10.00</div>
+                <div class="cart-item-quantity">
+                    <span>Quantity:</span>
+                    <div class="quantity-control">
+                        <button>-</button>
+                        <input type="number" value="1">
+                        <button>+</button>
+                    </div>
+                </div>
+                <div class="cart-item-total">$10.00</div>
+            </div>
+        </div>
+
+        <div class="cart-item">
+            <img src="item2.jpg" alt="Item 2">
+            <div class="cart-item-details">
+                <div class="cart-item-title">Item 2 Title</div>
+                <div class="cart-item-price">$15.00</div>
+                <div class="cart-item-quantity">
+                    <span>Quantity:</span>
+                    <div class="quantity-control">
+                        <button>-</button>
+                        <input type="number" value="1">
+                        <button>+</button>
+                    </div>
+                </div>
+                <div class="cart-item-total">$15.00</div>
+            </div>
+        </div>
+
+        <div class="cart-footer">
+            <div class="total">Total: $25.00</div>
+            <button class="checkout-button">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <div class="suggestions-container">
+        <div class="suggestions-header">
+            <h2>Suggested for You</h2>
+        </div>
+        <div class="suggestions-grid">
+            <div class="suggestion-item">
+                <img src="suggestion1.jpg" alt="Suggestion 1">
+                <div class="suggestion-item-details">
+                    <div class="suggestion-item-title">Suggestion 1 Title</div>
+                    <div class="suggestion-item-price">$12.00</div>
+                    <button>Add to Cart</button>
+                </div>
+            </div>
+            <div class="suggestion-item">
+                <img src="suggestion2.jpg" alt="Suggestion 2">
+                <div class="suggestion-item-details">
+                    <div class="suggestion-item-title">Suggestion 2 Title</div>
+                    <div class="suggestion-item-price">$18.00</div>
+                    <button>Add to Cart</button>
+                </div>
+            </div>
+            <!-- Add more suggestions as needed -->
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.quantity-control button').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const isIncrement = e.target.textContent === '+';
+                const input = e.target.parentElement.querySelector('input');
+                let currentValue = parseInt(input.value, 10);
+                if (isIncrement) {
+                    input.value = currentValue + 1;
+                } else if (currentValue > 1) {
+                    input.value = currentValue - 1;
+                }
+                updateCartTotal();
+            });
+        });
+
+        function updateCartTotal() {
+            const cartItems = document.querySelectorAll('.cart-item');
+            let total = 0;
+            cartItems.forEach(item => {
+                const price = parseFloat(item.querySelector('.cart-item-price').textContent.replace('$', ''));
+                const quantity = parseInt(item.querySelector('input').value, 10);
+                const itemTotal = price * quantity;
+                item.querySelector('.cart-item-total').textContent = `$${itemTotal.toFixed(2)}`;
+                total += itemTotal;
+            });
+            document.querySelector('.cart-footer .total').textContent = `Total: $${total.toFixed(2)}`;
+        }
+
+        updateCartTotal();
+    </script>
+</body>
+</html>

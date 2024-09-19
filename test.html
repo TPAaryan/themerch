@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Footer with Blurred Translucent Overlay</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        .footer {
+            position: relative;
+            width: 100%;
+            height: 300px; /* Adjust height as needed */
+            background: url('path-to-your-background-image.jpg') no-repeat center center; /* Replace with your background image path */
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff; /* Text color */
+            text-align: center;
+            overflow: hidden; /* Ensure content doesn't overflow */
+        }
+        .footer .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5); /* Translucent black background for better text contrast */
+            backdrop-filter: blur(8px); /* Blur effect */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #fff; /* Text color */
+            padding: 20px; /* Padding around the text */
+            box-sizing: border-box; /* Ensure padding is included in width/height */
+        }
+        .footer h1 {
+            font-size: 36px; /* Adjust title size */
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+        }
+        .footer p {
+            font-size: 18px; /* Adjust text size */
+            margin: 10px 0;
+            font-family: 'Arial', sans-serif;
+        }
+        .footer a {
+            color: #f4f4f4; /* Link color */
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <footer class="footer">
+        <div class="overlay">
+            <h1>Welcome to TheMerch.co</h1>
+            <p>Find the best anime merch here!</p>
+            <p><a href="#">Shop Now</a></p>
+        </div>
+    </footer>
+</body>
+</html>

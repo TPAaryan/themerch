@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add to Cart Confirmation</title>
+    <style>
+        /* Basic styling for the confirmation window */
+        .confirmation-window {
+            display: none; /* Hidden by default */
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 400px;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            text-align: center;
+            z-index: 1000;
+        }
+        .confirmation-window img {
+            width: 80px; /* Thumbnail size */
+            height: auto;
+            margin-bottom: 10px;
+        }
+        .confirmation-window h2 {
+            color: red;
+            margin-bottom: 10px;
+        }
+        .confirmation-window p {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .confirmation-window .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .confirmation-window button {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            box-sizing: border-box; /* Ensure padding is included in the width */
+        }
+        .confirmation-window .view-cart {
+            background-color: red;
+            color: white;
+        }
+        .confirmation-window .continue-shopping {
+            background-color: white;
+            color: red;
+            border: 1px solid red;
+        }
+        .confirmation-window .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            border: none;
+            background: transparent;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        .confirmation-overlay {
+            display: none; /* Hidden by default */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 600px) {
+            .confirmation-window {
+                width: 95%;
+                max-width: none;
+                padding: 15px;
+            }
+            .confirmation-window button {
+                font-size: 14px;
+                padding: 8px;
+            }
+            .confirmation-window img {
+                width: 60px; /* Smaller thumbnail size for mobile */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Overlay -->
+    <div class="confirmation-overlay" id="overlay"></div>
+
+    <!-- Confirmation Window -->
+    <div class="confirmation-window" id="confirmationWindow">
+        <button class="close-btn" onclick="closeConfirmationWindow()">×</button>
+        <img src="item-thumbnail.jpg" alt="Item Thumbnail">
+        <h2>Item Added to Cart!</h2>
+        <p>Item Name<br>Size: Medium<br>Price: $19.99</p>
+        <div class="button-container">
+            <button class="view-cart" onclick="viewCart()">View Cart</button>
+            <button class="continue-shopping" onclick="continueShopping()">Continue Shopping</button>
+        </div>
+    </div>
+
+    <script>
+        function showConfirmationWindow() {
+            document.getElementById('confirmationWindow').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+        }
+
+        function closeConfirmationWindow() {
+            document.getElementById('confirmationWindow').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+        }
+
+        function viewCart() {
+            window.location.href = '/Users/thale/OneDrive/Desktop/New folder/THE MERCH/index3d.html'; // Redirect to the cart page
+        }
+
+        function continueShopping() {
+            window.location.href = '/Users/thale/OneDrive/Desktop/New folder/THE MERCH/index.html';
+            // Optionally, return to the previous page or section
+        }
+
+        // Example of showing the confirmation window (for testing purposes)
+        showConfirmationWindow();
+    </script>
+
+</body>
+</html>

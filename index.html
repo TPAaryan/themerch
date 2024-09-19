@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website with Countdown, Widgets, and Sliders</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            justify-content: space-between;
+            background-color: #f4f4f4;
+        }
+        header {
+            width: 100%;
+            max-width: 1400px;
+            background-color: #fff;
+            background-image: url('path/to/your/background-image.jpg'); /* Update with correct path */
+            background-size: cover;
+            background-position: center;
+            height: 150px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin: 0 auto;
+            position: relative;
+            border-bottom: 2px solid #ddd;
+        }
+        .main-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+        .button-container {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .circle-button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #fff;
+            border: 2px solid #ddd;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        .circle-button img {
+            width: 70%;
+            height: auto;
+        }
+        .button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #e60023;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+            text-decoration: none;
+            transition: background-color 0.3s, box-shadow 0.3s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        .button:hover {
+            background-color: #c1001a;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        .countdown-container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 20px auto;
+            padding: 20px 0;
+            text-align: center;
+            background: linear-gradient(135deg, #ff0000, #ff6666);
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .countdown {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+        .countdown-item {
+            background: transparent;
+            color: #fff;
+            padding: 15px 20px;
+            border-radius: 8px;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 24px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        .sale-text {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 24px;
+            color: #ff0000;
+            text-shadow: 1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
+            margin-left: 20px;
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+        .widget-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            justify-content: center;
+            padding: 20px;
+            margin: 0 auto;
+            max-width: 1400px;
+        }
+        .widget {
+            position: relative;
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid #000;
+            border-radius: 12px;
+            text-align: center;
+            padding: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, background-color 0.3s;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow: hidden;
+            aspect-ratio: 2 / 3;
+            width: 300px;
+            height: 450px;
+            background-color: #f9f9f9;
+        }
+        .widget:hover {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 1);
+        }
+        .widget img.main-img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        .widget-info {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+            transition: opacity 0.3s ease-in-out;
+            opacity: 0;
+        }
+        .widget.show-info .widget-info {
+            display: flex;
+            opacity: 1;
+        }
+        .widget-info p {
+            margin: 10px 0;
+            font-size: 18px;
+            text-align: center;
+        }
+        .widget-info .button {
+            margin-top: 10px;
+        }
+        footer {
+            background: linear-gradient(135deg, #ff0000, #ff6666);
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            width: 100%;
+            font-size: 16px;
+            border-top: 2px solid #ddd;
+        }
+        .footer-icons {
+            margin: 10px 0;
+        }
+        .footer-icons a {
+            color: #fff;
+            font-size: 24px;
+            margin: 0 10px;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .footer-icons a:hover {
+            color: #ff6666;
+        }
+        .contact-info {
+            margin-top: 10px;
+        }
+        .contact-info a {
+            color: #ff6666;
+            text-decoration: none;
+        }
+        .scroll-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #e60023;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .scroll-button:hover {
+            background-color: #c1001a;
+        }
+        .scroll-button i {
+            font-size: 24px;
+        }
+        .slider {
+            width: 100%;
+            max-width: 1400px;
+            margin: 20px auto;
+            overflow: hidden;
+            position: relative;
+        }
+        .slides {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+        .slide {
+            min-width: 100%;
+            box-sizing: border-box;
+            text-align: center;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .slide img.main-img {
+            width: 100%;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="hamburger-menu">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
+        <img src="C:\Users\thale\OneDrive\Desktop\New folder\THE MERCH\1.png" alt="Main Image" class="main-image">
+        <div class="button-container">
+            <div class="circle-button">
+                <img src="C:\Users\thale\OneDrive\Desktop\New folder\THE MERCH\CIRCLE.png" alt="Icon"> <!-- Update with correct path -->
+            </div>
+            <a href="#" class="button">Shop now</a>
+        </div>
+    </header>
+    
+    <style>
+        header {
+            width: 100%;
+            max-width: 1400px;
+            background-color: #fff;
+            background-image: url('path/to/your/background-image.jpg'); /* Update with correct path */
+            background-size: cover;
+            background-position: center;
+            height: 150px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin: 0 auto;
+            position: relative;
+            border-bottom: 2px solid #ddd;
+        }
+        .hamburger-menu {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 30px;
+            height: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+        .line {
+            width: 100%;
+            height: 5px;
+            background-color: #e60023; /* Red color */
+            border-radius: 5px;
+        }
+        .line:nth-child(2) {
+            background-color: #fff; /* White color */
+            height: 5px; /* Adjust as needed */
+        }
+        .line:nth-child(3) {
+            background-color: #e60023; /* Red color */
+            height: 5px; /* Adjust as needed */
+        }
+        .line:nth-child(1),
+        .line:nth-child(3) {
+            margin-top: 1px; /* Closer spacing */
+        }
+        .line:nth-child(2) {
+            margin: 1px 0; /* Adjust spacing between lines */
+        }
+        .main-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+        .button-container {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .circle-button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #fff;
+            border: 2px solid #e60023; /* Red color */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        .circle-button img {
+            width: 70%;
+            height: auto;
+        }
+        .button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #e60023; /* Red color */
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+            text-decoration: none;
+            transition: background-color 0.3s, box-shadow 0.3s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        .button:hover {
+            background-color: #c1001a; /* Darker red color */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+    
+
+    <div class="countdown-container">
+        <div class="countdown">
+            <div class="countdown-item">10</div>
+            <div class="countdown-item">23</div>
+            <div class="countdown-item">45</div>
+        </div>
+        <div class="sale-text">SALE ENDS SOON</div>
+    </div>
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Stylized Ribbon with Cherry Red Theme</title>
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+                font-family: Arial, sans-serif;
+            }
+            .ribbon {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: #D20A2E; /* Cherry red color */
+                color: #fff;
+                padding: 15px 0;
+                position: relative;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                border-bottom: 3px solid #fff;
+            }
+            .ribbon::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 0;
+                height: 0;
+                border-width: 0 60px 25px 0;
+                border-style: solid;
+                border-color: #D20A2E transparent;
+                display: block;
+            }
+            .ribbon::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 0;
+                height: 0;
+                border-width: 25px 0 0 60px;
+                border-style: solid;
+                border-color: #D20A2E transparent;
+                display: block;
+            }
+            .tab-container {
+                display: flex;
+                gap: 30px; /* Increased spacing between tabs */
+            }
+            .tab {
+                font-family: 'Brush Script MT', cursive; /* Cursive font */
+                font-size: 24px; /* Increased font size */
+                color: #fff;
+                padding: 12px 25px;
+                border-radius: 8px;
+                background-color: #C8102E; /* Darker cherry red */
+                text-align: center;
+                transition: background-color 0.3s, box-shadow 0.3s;
+                cursor: pointer;
+            }
+            .tab:hover {
+                background-color: #D20A2E; /* Cherry red */
+                box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+            }
+        </style>
+    </head>
+    <body>
+        <div class="ribbon">
+            <div class="tab-container">
+                <div class="tab">Merch</div>
+                <div class="tab">Action Figures</div>
+                <div class="tab">Wallpapers</div>
+                <div class="tab">Posters</div>
+            </div>
+        </div>
+    </body>
+    </html>
+    
+    
+    <div class="slider">
+        <div class="slides">
+            <!-- Repeat slide structure for 5 slides -->
+            <div class="slide">Slide 1 Content
+                <img src="path/to/your/slide1-image.jpg" alt="Widget Image" class="main-img"> <!-- Update with correct path -->
+            </div>
+            <div class="slide">Slide 2 Content</div>
+            <div class="slide">Slide 3 Content</div>
+            <div class="slide">Slide 4 Content</div>
+            <div class="slide">Slide 5 Content</div>
+        </div>
+    </div>
+
+    <div class="widget-container">
+        <!-- Updated widget structure for 9 widgets -->
+        <div class="widget" onclick="this.classList.toggle('show-info')">
+            <img src="path/to/your/widget1-image.jpg" alt="Widget Image" class="main-img"> <!-- Update with correct path -->
+            <div class="widget-info">
+                <p>LUFFY GEAR 5</p>
+                <p>$19.99</p>
+                <a href="#" class="button">Add to Cart</a>
+                <a href="#" class="button">Buy Now</a>
+            </div>
+        </div>
+        <div class="widget" onclick="this.classList.toggle('show-info')">
+            <img src="path/to/your/widget2-image.jpg" alt="Widget Image" class="main-img"> <!-- Update with correct path -->
+            <div class="widget-info">
+                <p>LAW</p>
+                <p>$24.99</p>
+                <a href="#" class="button">Add to Cart</a>
+                <a href="#" class="button">Buy Now</a>
+            </div>
+        </div>
+        <div class="widget" onclick="this.classList.toggle('show-info')">
+            <img src="path/to/your/widget3-image.jpg" alt="Widget Image" class="main-img"> <!-- Update with correct path -->
+            <div class="widget-info">
+                <p>SHANKS</p>
+                <p>$29.99</p>
+                <a href="#" class="button">Add to Cart</a>
+                <a href="#" class="button">Buy Now</a>
+            </div>
+        </div>
+        <div class="widget" onclick="this.classList.toggle('show-info')">
+            <img src="path/to/your/widget4-image.jpg" alt="Widget Image" class="main-img"> <!-- Update with correct path -->
+            <div class="widget-info">
+                <p>Widget Description</p>
+                <p>$19.99</p>
+                <a href="#" class="button">Add to Cart</a>
+                <a href="#" class="button">Buy Now</a>
+            </div>
+        </div>
+        <div class="widget" onclick="this.classList.toggle('show-info')">
+            <img src="path/to/your/widget5-image.jpg" alt="Widget Image" class="main-img"> <!-- Update with correct path -->
+            <div class="widget-info">
+                <p>Widget Description</p>
+                <p>$19.99</p>
+                <a href="#" class="button">Add to Cart</a>
+                <a href="#" class="button">Buy Now</a>
+            </div>
+        </div>
+        <div class="widget" onclick="this.classList.toggle('show-info')">
+            <img src="path/to/your/widget6-image.jpg" alt="Widget Image" class="main-img"> <!-- Update with correct path -->
+            <div class="widget-info">
+                <p>Widget Description</p>
+                <p>$19.99</p>
+                <a href="#" class="button">Add to Cart</a>
+                <a href="#" class="button">Buy Now</a>
+            </div>
+        </div>
+        <div class="widget" onclick="this.classList.toggle('show-info')">
+            <img src="path/to/your/widget7-image.jpg" alt="Widget Image" class="main-img"> <!-- Update with correct path -->
+            <div class="widget-info">
+                <p>Widget Description</p>
+                <p>$19.99</p>
+                <a href="#" class="button">Add to Cart</a>
+                <a href="#" class="button">Buy Now</a>
+            </div>
+        </div>
+        <div class="widget" onclick="this.classList.toggle('show-info')">
+            <img src="path/to/your/widget8-image.jpg" alt="Widget Image" class="main-img"> <!-- Update with correct path -->
+            <div class="widget-info">
+                <p>Widget Description</p>
+                <p>$19.99</p>
+                <a href="#" class="button">Add to Cart</a>
+                <a href="#" class="button">Buy Now</a>
+            </div>
+        </div>
+        <div class="widget" onclick="this.classList.toggle('show-info')">
+            <img src="path/to/your/widget9-image.jpg" alt="Widget Image" class="main-img"> <!-- Update with correct path -->
+            <div class="widget-info">
+                <p>Widget Description</p>
+                <p>$19.99</p>
+                <a href="#" class="button">Add to Cart</a>
+                <a href="#" class="button">Buy Now</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-icons">
+            <a href="#" class="fa fa-facebook"></a>
+            <a href="#" class="fa fa-twitter"></a>
+            <a href="#" class="fa fa-instagram"></a>
+        </div>
+        <div class="contact-info">
+            <p>Contact us at <a href="mailto:info@example.com">info@example.com</a></p>
+        </div>
+    </footer>
+
+    <button class="scroll-button"><i class="fa fa-arrow-up"></i></button>
+
+    <script>
+        // JavaScript for automatic sliding
+        const slides = document.querySelector('.slides');
+        const slideCount = document.querySelectorAll('.slide').length;
+        let index = 0;
+
+        function showNextSlide() {
+            index = (index + 1) % slideCount;
+            slides.style.transform = `translateX(-${index * 100}vw)`;
+        }
+
+        setInterval(showNextSlide, 3000); // Change slide every 3 seconds
+    </script>
+</body>
+</html>
